@@ -1,18 +1,11 @@
-// Imports
-
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 
 const app = express();
 const prisma = new PrismaClient();
 
-import dotenv from 'dotenv';
-
-// import config from "config";
-
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const authRouter = require('./routes/auth');
 
 // middleware -> Parse incoming request bodies in a middleware before your handlers, available under the req.body property
 app.use(bodyParser.json());
@@ -20,24 +13,12 @@ app.use(bodyParser.json());
 // middleware for cross-origin resource sharing -> allows restricted resources on a web page to be requested from another domain outside the original domain
 app.use(cors());
 
-app.use('/api/auth', authRouter);
 
-// local configuration of the database for local development
-const config = require('./config/local');
 
-// Database connection setup
-const dbConfig = config.database;
-// Connect to the database using dbConfig.host, dbConfig.username, dbConfig.password, etc.
-
-// Routes
-
-app.get('/', (req, res) => {
-  res.send('Hello, my serving friend!');
-});
-
-// CRUD
 
 // post a post
+
+
 app.post('/api/posts', async (req, res) => {
 	try {
 	  const { title, category, thought } = req.body;
@@ -83,25 +64,3 @@ app.put('/posts/:postId', async (req, res) => {
 	  res.status(500).json({ message: 'Error updating post' });
 	}
   });
-  
-
-
-
-// Auth routes
-
-
-
-// const indexRouter = require('./routes/index');
-// const authRouter = require('./routes/auth');
-
-// app.use('/', indexRouter);
-// app.use('/', authRouter);
-
-// Start the server
-
-const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-//

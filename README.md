@@ -52,12 +52,6 @@ Checkout the frontend here: https://github.com/paulocerez/thoughts-enhanced-fron
 - Git/GitHub: version control system and web-based platform for tracking changes to code and collaborating with other developers
 
 
-
-### Software Architecture
-<img src="./client/dist/assets/thoughts_architecture.jpg" alt="Software Architecture" width="" height="">
-<img src="./client/public/thoughts_logo.png" alt="Logo" width="100" height="100">
-
-
 ## Getting Started
 
 ### Prerequisites
