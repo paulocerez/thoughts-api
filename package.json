@@ -8,6 +8,7 @@
     "dev": "nodemon app.ts",
     "build": "npm install && tsc"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
