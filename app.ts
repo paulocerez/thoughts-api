@@ -10,7 +10,6 @@ import dotenv from 'dotenv';
 
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { authRouter } from './routes/auth'
 
 
 // middleware -> Parse incoming request bodies in a middleware before your handlers, available under the req.body property
@@ -18,8 +17,6 @@ app.use(bodyParser.json());
 
 // middleware for cross-origin resource sharing -> allows restricted resources on a web page to be requested from another domain outside the original domain
 app.use(cors());
-
-app.use('/api/auth', authRouter);
 
 // local configuration of the database for local development
 const config = require('./config/local');
@@ -82,19 +79,6 @@ app.put('/posts/:postId', async (req, res) => {
 	  res.status(500).json({ message: 'Error updating post' });
 	}
   });
-  
-
-
-
-// Auth routes
-
-
-
-// const indexRouter = require('./routes/index');
-// const authRouter = require('./routes/auth');
-
-// app.use('/', indexRouter);
-// app.use('/', authRouter);
 
 // Start the server
 
