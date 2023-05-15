@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,14 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const client_1 = require("@prisma/client");
-const app = (0, express_1.default)();
-const prisma = new client_1.PrismaClient();
+import express from 'express';
+import { PrismaClient } from '@prisma/client';
+const app = express();
+const prisma = new PrismaClient();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 // middleware -> Parse incoming request bodies in a middleware before your handlers, available under the req.body property
