@@ -8,11 +8,10 @@ const prisma = new PrismaClient();
 
 import dotenv from 'dotenv';
 
-// import config from "config";
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import { authRouter } from './routes/auth'
 
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const authRouter = require('./routes/auth');
 
 // middleware -> Parse incoming request bodies in a middleware before your handlers, available under the req.body property
 app.use(bodyParser.json());
