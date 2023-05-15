@@ -1,5 +1,4 @@
 "use strict";
-// Imports
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -17,25 +16,12 @@ const express_1 = __importDefault(require("express"));
 const client_1 = require("@prisma/client");
 const app = (0, express_1.default)();
 const prisma = new client_1.PrismaClient();
-// import config from "config";
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const authRouter = require('./routes/auth');
 // middleware -> Parse incoming request bodies in a middleware before your handlers, available under the req.body property
 app.use(bodyParser.json());
 // middleware for cross-origin resource sharing -> allows restricted resources on a web page to be requested from another domain outside the original domain
 app.use(cors());
-app.use('/api/auth', authRouter);
-// local configuration of the database for local development
-const config = require('./config/local');
-// Database connection setup
-const dbConfig = config.database;
-// Connect to the database using dbConfig.host, dbConfig.username, dbConfig.password, etc.
-// Routes
-app.get('/', (req, res) => {
-    res.send('Hello, my serving friend!');
-});
-// CRUD
 // post a post
 app.post('/api/posts', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -80,14 +66,3 @@ app.put('/posts/:postId', (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(500).json({ message: 'Error updating post' });
     }
 }));
-// Auth routes
-// const indexRouter = require('./routes/index');
-// const authRouter = require('./routes/auth');
-// app.use('/', indexRouter);
-// app.use('/', authRouter);
-// Start the server
-const PORT = 3001;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-//
