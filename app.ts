@@ -19,10 +19,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // local configuration of the database for local development
-const config = require('./config/local');
+// import config from './config/local'
 
 // Database connection setup
-const dbConfig = config.database;
+// const dbConfig = config.database;
 // Connect to the database using dbConfig.host, dbConfig.username, dbConfig.password, etc.
 
 // Routes

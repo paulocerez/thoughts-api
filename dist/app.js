@@ -19,9 +19,9 @@ app.use(bodyParser.json());
 // middleware for cross-origin resource sharing -> allows restricted resources on a web page to be requested from another domain outside the original domain
 app.use(cors());
 // local configuration of the database for local development
-const config = require('./config/local');
+// import config from './config/local'
 // Database connection setup
-const dbConfig = config.database;
+// const dbConfig = config.database;
 // Connect to the database using dbConfig.host, dbConfig.username, dbConfig.password, etc.
 // Routes
 app.get('/', (req, res) => {
