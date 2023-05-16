@@ -1,16 +1,16 @@
 // Imports
 
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
 
 const app = express();
-const prisma = new PrismaClient();
 
 import dotenv from 'dotenv';
 
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 // middleware -> Parse incoming request bodies in a middleware before your handlers, available under the req.body property
 app.use(bodyParser.json());
@@ -18,12 +18,6 @@ app.use(bodyParser.json());
 // middleware for cross-origin resource sharing -> allows restricted resources on a web page to be requested from another domain outside the original domain
 app.use(cors());
 
-// local configuration of the database for local development
-// import config from './config/local'
-
-// Database connection setup
-// const dbConfig = config.database;
-// Connect to the database using dbConfig.host, dbConfig.username, dbConfig.password, etc.
 
 // Routes
 
@@ -31,11 +25,12 @@ app.get('/', (req, res) => {
   res.send('Hello, my serving friend!');
 });
 
-// CRUD
 
-// post a post
-app.post('/api/posts', async (req, res) => {
+// Post-related routes
+
+app.post("/api/posts", async (req, res) => {
 	try {
+		// destructuring the request body -> extract properties
 	  const { title, category, thought } = req.body;
 	  const post = await prisma.post.create({
 		data: {
@@ -51,6 +46,7 @@ app.post('/api/posts', async (req, res) => {
 	}
   });
 
+
 // delete a post
 app.delete("/api/posts/:id", async (req, res) => {
 	// id as the unique identifier in the database for the post to be deleted
@@ -59,8 +55,10 @@ app.delete("/api/posts/:id", async (req, res) => {
 	res.sendStatus(204);
   });
 
-  // Update a post
-app.put('/posts/:postId', async (req, res) => {
+
+
+// Update a post
+app.put("/api/posts/:postId", async (req, res) => {
 	const { title, thought } = req.body;
 	const { postId } = req.params;
   
@@ -82,9 +80,18 @@ app.put('/posts/:postId', async (req, res) => {
 
 // Start the server
 
-const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-//
+async function main() {
+	// Connect to the database
+	await prisma.$connect();
+  
+	// Start the server
+	const PORT = 3001;
+	app.listen(PORT, () => {
+	  console.log(`Server running on port ${PORT}`);
+	});
+  }
+  
+  main().catch((error) => {
+	console.error('Error connecting to database:', error);
+  });
+  

@@ -1,3 +1,4 @@
+// post based routes
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,18 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
-const app = express();
-const prisma = new PrismaClient();
+import prisma from './prisma';
+const router = express.Router();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 // middleware -> Parse incoming request bodies in a middleware before your handlers, available under the req.body property
-app.use(bodyParser.json());
+router.use(bodyParser.json());
 // middleware for cross-origin resource sharing -> allows restricted resources on a web page to be requested from another domain outside the original domain
-app.use(cors());
+router.use(cors());
 // post a post
-app.post('/api/posts', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/api/posts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // destructuring the request body -> extract properties
         const { title, category, thought } = req.body;
         const post = yield prisma.post.create({
             data: {
@@ -36,14 +37,14 @@ app.post('/api/posts', (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 }));
 // delete a post
-app.delete("/api/posts/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.delete("/api/posts/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // id as the unique identifier in the database for the post to be deleted
     const { id } = req.params;
     yield prisma.post.delete({ where: { id: Number(id) } });
     res.sendStatus(204);
 }));
 // Update a post
-app.put('/posts/:postId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.put("/api/posts/:postId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, thought } = req.body;
     const { postId } = req.params;
     try {
@@ -61,3 +62,4 @@ app.put('/posts/:postId', (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(500).json({ message: 'Error updating post' });
     }
 }));
+export default router;

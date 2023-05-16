@@ -1,26 +1,28 @@
-import express from 'express';
-import { PrismaClient } from '@prisma/client';
 
-const app = express();
-const prisma = new PrismaClient();
+// post based routes
+
+import express from 'express';
+import prisma from './prisma'
+import { Router } from 'express';
+
+const router = express.Router();
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // middleware -> Parse incoming request bodies in a middleware before your handlers, available under the req.body property
-app.use(bodyParser.json());
+router.use(bodyParser.json());
 
 // middleware for cross-origin resource sharing -> allows restricted resources on a web page to be requested from another domain outside the original domain
-app.use(cors());
+router.use(cors());
 
 
 
 
 // post a post
-
-
-app.post('/api/posts', async (req, res) => {
+router.post("/api/posts", async (req, res) => {
 	try {
+		// destructuring the request body -> extract properties
 	  const { title, category, thought } = req.body;
 	  const post = await prisma.post.create({
 		data: {
@@ -36,16 +38,19 @@ app.post('/api/posts', async (req, res) => {
 	}
   });
 
+
 // delete a post
-app.delete("/api/posts/:id", async (req, res) => {
+router.delete("/api/posts/:id", async (req, res) => {
 	// id as the unique identifier in the database for the post to be deleted
 	const { id } = req.params;
 	await prisma.post.delete({ where: { id: Number(id) } });
 	res.sendStatus(204);
   });
 
-  // Update a post
-app.put('/posts/:postId', async (req, res) => {
+
+
+// Update a post
+router.put("/api/posts/:postId", async (req, res) => {
 	const { title, thought } = req.body;
 	const { postId } = req.params;
   
@@ -64,3 +69,5 @@ app.put('/posts/:postId', async (req, res) => {
 	  res.status(500).json({ message: 'Error updating post' });
 	}
   });
+
+  export default router;
