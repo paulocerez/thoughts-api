@@ -26,6 +26,26 @@ app.get('/', (req, res) => {
 });
 
 
+app.get('/api/posts/:id', (req, res) => {
+	const thoughtId = req.params.id;
+
+});
+
+app.get('/api/posts/all', async (req, res) => {
+
+	// let count = 0;
+	// try {
+	// 	// count all posts in the database
+	// 	const databaseCount = await prisma.post.count();
+	// 	count = databaseCount;
+	// } catch (error) {
+	// 	res.status(500).json({error: "Couldn't fetch database entry count!"})
+	// }
+	const thoughts = await prisma.post.findMany();
+	res.json(thoughts);
+});
+
+
 // Post-related routes
 
 app.post("/api/posts", async (req, res) => {
@@ -78,6 +98,12 @@ app.put("/api/posts/:postId", async (req, res) => {
 	}
   });
 
+
+
+
+
+  
+
 // Start the server
 
 async function main() {
@@ -94,4 +120,3 @@ async function main() {
   main().catch((error) => {
 	console.error('Error connecting to database:', error);
   });
-  
