@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 
 import bodyParser from 'body-parser';
 import cors from 'cors';
+app.use(cors({origin: true}));
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
@@ -16,7 +17,7 @@ const prisma = new PrismaClient();
 app.use(bodyParser.json());
 
 // middleware for cross-origin resource sharing -> allows restricted resources on a web page to be requested from another domain outside the original domain
-app.use(cors());
+
 
 
 // Routes
@@ -32,17 +33,13 @@ app.get('/api/posts/:id', (req, res) => {
 });
 
 app.get('/api/posts/all', async (req, res) => {
-
-	// let count = 0;
-	// try {
-	// 	// count all posts in the database
-	// 	const databaseCount = await prisma.post.count();
-	// 	count = databaseCount;
-	// } catch (error) {
-	// 	res.status(500).json({error: "Couldn't fetch database entry count!"})
-	// }
-	const thoughts = await prisma.post.findMany();
-	res.json(thoughts);
+	try {
+		const thoughts = await prisma.post.findMany();
+		res.json(thoughts);
+	} catch (error) {
+    console.error('Error retrieving entries:', error);
+    res.status(500).json({ error: 'Failed to retrieve entries' });
+  }
 });
 
 
@@ -111,7 +108,7 @@ async function main() {
 	await prisma.$connect();
   
 	// Start the server
-	const PORT = 3001;
+	const PORT = 3000;
 	app.listen(PORT, () => {
 	  console.log(`Server running on port ${PORT}`);
 	});
