@@ -12,16 +12,29 @@ import express from 'express';
 const app = express();
 import bodyParser from 'body-parser';
 import cors from 'cors';
+app.use(cors({ origin: true }));
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 // middleware -> Parse incoming request bodies in a middleware before your handlers, available under the req.body property
 app.use(bodyParser.json());
 // middleware for cross-origin resource sharing -> allows restricted resources on a web page to be requested from another domain outside the original domain
-app.use(cors());
 // Routes
 app.get('/', (req, res) => {
     res.send('Hello, my serving friend!');
 });
+app.get('/api/posts/:id', (req, res) => {
+    const thoughtId = req.params.id;
+});
+app.get('/api/posts/all', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const thoughts = yield prisma.post.findMany();
+        res.json(thoughts);
+    }
+    catch (error) {
+        console.error('Error retrieving entries:', error);
+        res.status(500).json({ error: 'Failed to retrieve entries' });
+    }
+}));
 // Post-related routes
 app.post("/api/posts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -73,7 +86,7 @@ function main() {
         // Connect to the database
         yield prisma.$connect();
         // Start the server
-        const PORT = 3001;
+        const PORT = 3000;
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
         });
