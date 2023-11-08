@@ -26,21 +26,20 @@ app.get('/', (req, res) => {
   res.send('Hello, my serving friend!');
 });
 
-
-app.get('/api/posts/:id', (req, res) => {
-	const thoughtId = req.params.id;
-
-});
-
 app.get('/api/posts/all', async (req, res) => {
 	try {
 		const thoughts = await prisma.post.findMany();
 		res.json(thoughts);
 	} catch (error) {
-    console.error('Error retrieving entries:', error);
-    res.status(500).json({ error: 'Failed to retrieve entries' });
+	console.error('Error retrieving entries:', error);
+	res.status(500).json({ error: 'Failed to retrieve entries' });
   }
 });
+
+app.get('/api/posts/:id', (req, res) => {
+	const thoughtId = req.params.id;
+});
+
 
 
 // Post-related routes
@@ -108,7 +107,7 @@ async function main() {
 	await prisma.$connect();
   
 	// Start the server
-	const PORT = 3000;
+	const PORT = 8001;
 	app.listen(PORT, () => {
 	  console.log(`Server running on port ${PORT}`);
 	});
